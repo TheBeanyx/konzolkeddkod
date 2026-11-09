@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Transzformáció JavaScript Dokumentáció</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #090d16 100%);
+            color: #f0f6fc;
+            line-height: 1.7;
+            padding: 60px 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #61afef 0%, #c678dd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            color: #8b949e;
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
+
+        .card {
+            background: rgba(22, 27, 34, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .code-box {
+            background-color: #0d1117;
+            padding: 24px;
+            border-radius: 16px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .comment-highlight {
+            display: inline-block;
+            background: rgba(198, 120, 221, 0.15);
+            color: #d19a66;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin: 4px 0;
+            border-left: 4px solid #c678dd;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .comment-highlight:hover {
+            background: rgba(198, 120, 221, 0.35);
+            color: #ffffff;
+            transform: scale(1.01) translateX(6px);
+            border-left-color: #61afef;
+            box-shadow: 0 4px 15px rgba(198, 120, 221, 0.2);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #61afef 0%, #3b82f6 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #70b8efff 0%, #4f8df7 100%);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .action-area {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>3D Transzformációs Kód</h1>
+            <p class="subtitle">Interaktív JavaScript kódmagyarázat modern köntösben</p>
+        </header>
+
+        <section class="card">
+            <div class="card-header">
+                <h2 class="card-title">Kód és magyarázat</h2>
+            </div>
+            <div class="code-box"><span class="comment-highlight">// ==========================================</span>
+<span class="comment-highlight">// VÁLTOZÓK ÉS ALAPBEÁLLÍTÁSOK LÉTREHOZÁSA</span>
+<span class="comment-highlight">// ==========================================</span>
+
+<span class="comment-highlight">// 'let': Új változó deklarálása (értéke később változhat).</span>
+<span class="comment-highlight">// 'rx = 0': Létrehozzuk az 'rx' (rotation X) változót, kezdeti értéke 0 fok (függőleges dőléshez).</span>
+<span class="comment-highlight">// 'ry = 0': Létrehozzuk az 'ry' (rotation Y) változót, kezdeti értéke 0 fok (vízszintes dőléshez).</span>
+let rx = 0, ry = 0;
+
+<span class="comment-highlight">// 'let mode = 'off'': Létrehozzuk a 'mode' nevű változót, és alapértelmezett értékként beállítjuk rajta az 'off'-ot (vagyis kezdetben minden ki van kapcsolva).</span>
+let mode = 'off';
+
+<span class="comment-highlight">// 'document.body': Megcélozza a HTML oldal törzsét (az egész látható tartalmat).</span>
+<span class="comment-highlight">// '.style.transition': Beállítja, hogy a stílusváltozások ne hirtelen, hanem sima animációként történjenek.</span>
+<span class="comment-highlight">// '= 'transform 0.05s linear'': A transzformáció 0.05 másodpercig tartson, lineáris (egyenletes) sebességgel.</span>
+document.body.style.transition = 'transform 0.05s linear';
+
+
+<span class="comment-highlight">// ==========================================</span>
+<span class="comment-highlight">// EGÉRKÖVETÉS LOGIKÁJA</span>
+<span class="comment-highlight">// ==========================================</span>
+
+<span class="comment-highlight">// 'window.addEventListener': Figyelőt kapcsolunk az egész böngészőablakra.</span>
+<span class="comment-highlight">// 'mousemove': Ezt az eseményt figyeljük (akkor fut le, ha az egér elmozdul).</span>
+<span class="comment-highlight">// '(e) => { ... }': Egy nyílfüggvény (arrow function), ami megkapja az egér adatait az 'e' változóban.</span>
+window.addEventListener('mousemove', (e) => {
+    
+    <span class="comment-highlight">// 'if (mode !== 'mouse') return;': Ha az aktuális mód NEM az egérkövetés ('mouse'), akkor azonnal kilépünk (return), így az egér mozgása nem csinál semmit.</span>
+    if (mode !== 'mouse') return;
+    
+    <span class="comment-highlight">// 'window.innerWidth / 2': Az ablak teljes szélességének a fele (a képernyő közepe X tengelyen).</span>
+    <span class="comment-highlight">// '- e.clientX': Kivonjuk ebből az egér aktuális X pozícióját.</span>
+    <span class="comment-highlight">// '/ 30': Elosztjuk 30-cal, hogy a dőlés mértéke finom és ne túl vad legyen. Az eredmény az 'x' változóba kerül.</span>
+    let x = (window.innerWidth / 2 - e.clientX) / 30;
+    
+    <span class="comment-highlight">// 'e.clientY': Az egér aktuális magassága Y tengelyen.</span>
+    <span class="comment-highlight">// '- window.innerHeight / 2': Kivonjuk az ablak magasságának felét, hogy a képernyő közepe legyen a 0 pont.</span>
+    <span class="comment-highlight">// '/ 30': Ezt is elosztjuk 30-cal a finomabb hatásért, és elmentjük az 'y' változóba.</span>
+    let y = (e.clientY - window.innerHeight / 2) / 30;
+    
+    <span class="comment-highlight">// 'document.body.style.transform': Módosítjuk a body elem térbeli tulajdonságait.</span>
+    <span class="comment-highlight">// 'perspective(1000px)': Adunk neki egy 3D-s térhatást (látószöget).</span>
+    <span class="comment-highlight">// 'rotateY(${x}deg) rotateX(${y}deg)': Elforgatjuk a kiszámolt x és y értékek szerint fokokban (deg).</span>
+    document.body.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
+});
+
+
+<span class="comment-highlight">// ==========================================</span>
+<span class="comment-highlight">// BILLENTYŰZET (NYILAK) LOGIKÁJA</span>
+<span class="comment-highlight">// ==========================================</span>
+
+<span class="comment-highlight">// Figyeljük az ablakban a billentyűk lenyomását ('keydown').</span>
+window.addEventListener('keydown', (e) => {
+    
+    <span class="comment-highlight">// Ha a mód nem 'arrows' (nyilas vezérlés), akkor azonnal kilépünk, a nyilak nem fognak forgatni.</span>
+    if (mode !== 'arrows') return;
+    
+    <span class="comment-highlight">// 'e.key': A lenyomott billentyű neve.</span>
+    <span class="comment-highlight">// Ha a felfelé nyilat nyomják meg ('ArrowUp'), akkor adjunk 5-öt az rx értékéhez.</span>
+    if (e.key === 'ArrowUp') rx += 5;
+    
+    <span class="comment-highlight">// Különben ha a lefelé nyilat ('ArrowDown'), vonjunk le 5-öt az rx-ből.</span>
+    else if (e.key === 'ArrowDown') rx -= 5;
+    
+    <span class="comment-highlight">// Különben ha a balra nyilat ('ArrowLeft'), vonjunk le 5-öt az ry-ból.</span>
+    else if (e.key === 'ArrowLeft') ry -= 5;
+    
+    <span class="comment-highlight">// Különben ha a jobbra nyilat ('ArrowRight'), adjunk 5-öt az ry-hoz.</span>
+    else if (e.key === 'ArrowRight') ry += 5;
+    
+    <span class="comment-highlight">// Ha a lenyomott gomb egyik nyíl sem volt, kilépünk a függvényből.</span>
+    else return;
+
+    <span class="comment-highlight">// Alkalmazzuk a frissített rx és ry értékeket a 3D transzformációra.</span>
+    document.body.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    
+    <span class="comment-highlight">// 'e.preventDefault()': Megakadályozza a böngésző alapértelmezett dolgait (pl. hogy a nyilak lenyomására az oldal elkezdem lefelé-felfelé scrollozni).</span>
+    e.preventDefault();
+});
+
+
+<span class="comment-highlight">// ==========================================</span>
+<span class="comment-highlight">// SAJÁT KONZOL PARANCS (d3 FÜGGVÉNY)</span>
+<span class="comment-highlight">// ==========================================</span>
+
+<span class="comment-highlight">// Létrehozzuk a saját globális parancsunkat a böngészőablakon belül 'window.d3' néven, ami két paramétert ('action' és 'sub') fogad.</span>
+window.d3 = function(action, sub) {
+    
+    <span class="comment-highlight">// Ha az első paraméter 'false' vagy 'off':</span>
+    if (action === 'false' || action === 'off') {
+        mode = 'off'; <span class="comment-highlight">// A módot átállítjuk 'off'-ra (kikapcsolva).</span>
+        document.body.style.transform = 'none'; <span class="comment-highlight">// Eltüntetjük a 3D dőlést, visszaállítjuk simára az oldalt.</span>
+        console.log('%c[3D] Forgatás kikapcsolva és alaphelyzetbe állítva!', 'color: red; font-weight: bold;'); <span class="comment-highlight">// a console.log a consolba való logolás azaz írás.: Piros üzenet a konzolba.</span>
+    } 
+    
+    <span class="comment-highlight">// Különben ha az action 'mouse', vagy a switch alatt 'mouse' szerepel:</span>
+    else if ((action === 'switch' && sub === 'mouse') || action === 'mouse') {
+        mode = 'mouse'; <span class="comment-highlight">// Átjátsszuk a módot egérkövetésre.</span>
+        console.log('%c[3D] Mód: EGÉR KÖVETÉS AKTÍV', 'color: green; font-weight: bold;'); <span class="comment-highlight">// Zöld üzenet a konzolba.</span>
+    } 
+    
+    <span class="comment-highlight">// Különben ha az action 'arrows', vagy a switch alatt 'arrows' szerepel:</span>
+    else if ((action === 'switch' && sub === 'arrows') || action === 'arrows') {
+        mode = 'arrows'; <span class="comment-highlight">// Átjátsszuk a módot nyilas vezérlésre.</span>
+        console.log('%c[3D] Mód: NYILAS VEZÉRLÉS AKTÍV (kattints az oldalra!)', 'color: blue; font-weight: bold;'); <span class="comment-highlight">// Kék üzenet a konzolba.</span>
+    } 
+    
+    <span class="comment-highlight">// Ha valami teljesen mást írt be a felhasználó:</span>
+    else {
+        <span class="comment-highlight">// Kiírjuk a helyes parancsokat hibaüzenetként.</span>
+console.log('Ismeretlen parancs! Használd ezeket:\n- d3("mouse")\n- d3("arrows")\n- d3("off")');
+    }
+};
+
+
+<span class="comment-highlight">// ==========================================</span>
+<span class="comment-highlight">// ÜDVÖZLŐ ÉS INFORMÁCIÓS ÜZENETEK A KONZOLBAN</span>
+<span class="comment-highlight">// ==========================================</span>
+
+<span class="comment-highlight">// Stílusos (színes, sötét hátterű) bevezető szöveg kiírása a konzolba, amikor bemásolod a kódot.</span>
+console.log('%c3D Rendszer kész! Írd be a konzolba:', 'background: #222; color: #bada55; padding: 4px; font-size: 12px;');
+console.log('  d3("mouse")   -> egérkövetés');
+console.log('  d3("arrows")  -> nyilas vezérlés');
+console.log('  d3("off")     -> kikapcsolás');</div>
+        </section>
+
+        <div class="action-area">
+            <button class="copy-btn" onclick="copyCleanCode()">
+                Tiszta kód másolása
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const cleanCodeText = `let rx = 0, ry = 0;
+let mode = 'off';
+document.body.style.transition = 'transform 0.05s linear';
+
+window.addEventListener('mousemove', (e) => {
+    if (mode !== 'mouse') return;
+    let x = (window.innerWidth / 2 - e.clientX) / 30;
+    let y = (e.clientY - window.innerHeight / 2) / 30;
+    document.body.style.transform = \`perspective(1000px) rotateY(\${x}deg) rotateX(\${y}deg)\`;
+});
+
+window.addEventListener('keydown', (e) => {
+    if (mode !== 'arrows') return;
+    if (e.key === 'ArrowUp') rx += 5;
+    else if (e.key === 'ArrowDown') rx -= 5;
+    else if (e.key === 'ArrowLeft') ry -= 5;
+    else if (e.key === 'ArrowRight') ry += 5;
+    else return;
+
+    document.body.style.transform = \`perspective(1000px) rotateX(\${rx}deg) rotateY(\${ry}deg)\`;
+    e.preventDefault();
+});
+
+window.d3 = function(action, sub) {
+    if (action === 'false' || action === 'off') {
+        mode = 'off';
+        document.body.style.transform = 'none';
+        console.log('%c[3D] Forgatás kikapcsolva és alaphelyzetbe állítva!', 'color: red; font-weight: bold;');
+    } 
+    else if (action === 'switch' && sub === 'mouse' || action === 'mouse') {
+        mode = 'mouse';
+        console.log('%c[3D] Mód: EGÉR KÖVETÉS AKTÍV', 'color: green; font-weight: bold;');
+    } 
+    else if (action === 'switch' && sub === 'arrows' || action === 'arrows') {
+        mode = 'arrows';
+        console.log('%c[3D] Mód: NYILAS VEZÉRLÉS AKTÍV (kattints az oldalra!)', 'color: blue; font-weight: bold;');
+    } 
+    else {
+        console.log('Ismeretlen parancs! Használd ezeket:\\n- d3("mouse")\\n- d3("arrows")\\n- d3("off")');
+    }
+};
+
+console.log('%c3D Rendszer kész! Írd be a konzolba:', 'background: #222; color: #bada55; padding: 4px; font-size: 12px;');
+console.log('  d3("mouse")   -> egérkövetés');
+console.log('  d3("arrows")  -> nyilas vezérlés');
+console.log('  d3("off")     -> kikapcsolás');`;
+
+        function copyCleanCode() {
+            navigator.clipboard.writeText(cleanCodeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = 'Sikeresen másolva!';
+                btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                btn.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.4)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = 'Tiszta kód másolása';
+                    btn.style.background = 'linear-gradient(135deg, #61afef 0%, #3b82f6 100%)';
+                    btn.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.3)';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
