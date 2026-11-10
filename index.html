@@ -406,7 +406,7 @@ window.addEventListener('mousemove', (e) => {
     if (mode !== 'mouse') return;
     let x = (window.innerWidth / 2 - e.clientX) / 30;
     let y = (e.clientY - window.innerHeight / 2) / 30;
-    document.body.style.transform = \`perspective(1000px) rotateY(\${x}deg) rotateX(\${y}deg)\`;
+    document.body.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg)`;
 });
 
 window.addEventListener('keydown', (e) => {
@@ -417,26 +417,34 @@ window.addEventListener('keydown', (e) => {
     else if (e.key === 'ArrowRight') ry += 5;
     else return;
 
-    document.body.style.transform = \`perspective(1000px) rotateX(\${rx}deg) rotateY(\${ry}deg)\`;
+    document.body.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     e.preventDefault();
 });
 
 window.d3 = function(action, sub) {
     if (action === 'false' || action === 'off') {
         mode = 'off';
+        rx = 0; 
+        ry = 0;
         document.body.style.transform = 'none';
         console.log('%c[3D] Forgatás kikapcsolva és alaphelyzetbe állítva!', 'color: red; font-weight: bold;');
     } 
-    else if (action === 'switch' && sub === 'mouse' || action === 'mouse') {
+    else if ((action === 'switch' && sub === 'mouse') || action === 'mouse') {
         mode = 'mouse';
         console.log('%c[3D] Mód: EGÉR KÖVETÉS AKTÍV', 'color: green; font-weight: bold;');
     } 
-    else if (action === 'switch' && sub === 'arrows' || action === 'arrows') {
+    else if ((action === 'switch' && sub === 'arrows') || action === 'arrows') {
         mode = 'arrows';
+        rx = 0; 
+        ry = 0;
         console.log('%c[3D] Mód: NYILAS VEZÉRLÉS AKTÍV (kattints az oldalra!)', 'color: blue; font-weight: bold;');
     } 
     else {
-        console.log('Ismeretlen parancs! Használd ezeket:\n- d3("mouse")\n- d3("arrows")\n- d3("off")');
+        // Itt volt a hiba: a sima idézőjel helyett backtick (`` ` ``) kell a többsoros stringhez
+        console.log(`Ismeretlen parancs! Használd ezeket:
+- d3("mouse")
+- d3("arrows")
+- d3("off")`);
     }
 };
 
